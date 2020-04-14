@@ -85,10 +85,18 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute (String result){
             super.onPostExecute(result);
             JSONObject jsonObject = null ;
+            JSONArray jsonArray = null ;
             try {
 
                 jsonObject = new JSONObject(result);
-                weatherData.setText(jsonObject.getString("weather"));
+                jsonArray = new JSONArray(jsonObject.getString("weather") );
+                String weather = "" ;
+                for (int i=0 ; i<jsonArray.length();i++) {
+                    JSONObject jObject = jsonArray.getJSONObject(i);
+                    weather += jObject.getString("description");
+
+                }
+                weatherData.setText(weather);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
